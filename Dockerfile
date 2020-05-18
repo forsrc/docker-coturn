@@ -42,6 +42,7 @@ RUN apt-get clean
 
 RUN chown $USER:$USER /var/lib/turn/
 RUN chown $USER:$USER /var/run/
+RUN chown -R forsrc:forsrc /etc/coturn
 
 WORKDIR /home/$USER
 USER $USER
