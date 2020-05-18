@@ -22,12 +22,13 @@ RUN sed -i 's@#user=username2:password2@user=forsrc:0xd667eb7aa3ebe3af48ee1c3330
 
 
 
-RUN echo '#!/bin/sh'                        >  /docker-entrypoint.sh
-RUN echo 'if [ "\${1:0:1}" == '-' ]; then'  >> /docker-entrypoint.sh
-RUN echo '  set -- turnserver "\$@"'        >> /docker-entrypoint.sh
-RUN echo 'fi'                               >> /docker-entrypoint.sh
-RUN echo 'exec \$(eval "echo \$@")'         >> /docker-entrypoint.sh
+RUN echo '#!/bin/sh'                          >  /docker-entrypoint.sh
+RUN echo "if [ \"\${1:0:1}\" == '-' ]; then"  >> /docker-entrypoint.sh
+RUN echo '  set -- turnserver "\$@"'          >> /docker-entrypoint.sh
+RUN echo 'fi'                                 >> /docker-entrypoint.sh
+RUN echo 'exec \$(eval "echo \$@")'           >> /docker-entrypoint.sh
 RUN chmod +x /docker-entrypoint.sh
+
 ENV USER=forsrc
 ARG PASSWD=forsrc
 RUN apt-get update
