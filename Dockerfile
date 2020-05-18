@@ -20,13 +20,15 @@ RUN sed -i 's@#server-name=blackdow.carleon.gov@server-name=coturn.forsrc.com@g'
 RUN sed -i 's@#realm=realm@realm=coturn.forsrc.com@g'                                             /etc/turnserver.conf
 RUN sed -i 's@#user=username2:password2@user=forsrc:0xd667eb7aa3ebe3af48ee1c3330941e06@g'         /etc/turnserver.conf
 
+RUN mkdir -p /var/lib/turn/
+RUN mkdir -p /var/run/
 
 
-RUN echo '#!/bin/sh'                          >  /docker-entrypoint.sh
+RUN echo '#!/bin/bash'                        >  /docker-entrypoint.sh
 RUN echo "if [ \"\${1:0:1}\" == '-' ]; then"  >> /docker-entrypoint.sh
-RUN echo '  set -- turnserver "\$@"'          >> /docker-entrypoint.sh
+RUN echo '  set -- turnserver "$@"'           >> /docker-entrypoint.sh
 RUN echo 'fi'                                 >> /docker-entrypoint.sh
-RUN echo 'exec \$(eval "echo \$@")'           >> /docker-entrypoint.sh
+RUN echo 'exec $(eval "echo $@")'             >> /docker-entrypoint.sh
 RUN chmod +x /docker-entrypoint.sh
 
 ENV USER=forsrc
@@ -37,8 +39,13 @@ RUN useradd -m --shell /bin/bash $USER && \
     echo "$USER:$PASSWD" | chpasswd && \
     echo "$USER ALL=(ALL) ALL" >> /etc/sudoers
 RUN apt-get clean
+
+RUN chown $USER:$USER /var/lib/turn/
+RUN chown $USER:$USER /var/run/
+
 WORKDIR /home/$USER
 USER $USER
+
 
 EXPOSE 3478 3478/udp
 EXPOSE 5347 5347/udp
