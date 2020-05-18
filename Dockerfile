@@ -27,7 +27,7 @@ RUN echo 'if [ "\${1:0:1}" == '-' ]; then'  >> /docker-entrypoint.sh
 RUN echo '  set -- turnserver "\$@"'        >> /docker-entrypoint.sh
 RUN echo 'fi'                               >> /docker-entrypoint.sh
 RUN echo 'exec \$(eval "echo \$@")'         >> /docker-entrypoint.sh
-
+RUN chmod +x /docker-entrypoint.sh
 ENV USER=forsrc
 ARG PASSWD=forsrc
 RUN apt-get update
