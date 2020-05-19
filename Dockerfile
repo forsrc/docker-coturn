@@ -55,4 +55,5 @@ VOLUME ["/var/lib/coturn"]
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
 
-CMD ["--log-file=stdout", "-c", "/etc/turnserver.conf" ]
+
+CMD ["--log-file=stdout", "-c", "/etc/turnserver.conf", "$COTURN_ARGS"]
