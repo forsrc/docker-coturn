@@ -3,13 +3,26 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update
 
-RUN apt-get -y install coturn certbot systemd sudo
+#RUN apt-get -y install coturn certbot systemd sudo
 
 #RUN systemctl enable coturn
 
-RUN sed -i 's/#TURNSERVER_ENABLED=1/TURNSERVER_ENABLED=1/g' /etc/default/coturn
+RUN apt-get -y install systemd sudo wget gcc make git sqlite libsqlite3-dev libssl-dev libevent-dev libhiredis-dev libmysqlclient-dev libpq-dev
 
-RUN mkdir -p /etc/coturn
+RUN cd /tmp
+#RUN wget https://github.com/downloads/libevent/libevent/libevent-2.0.21-stable.tar.gz
+#RUN tar xvfz libevent-2.0.21-stable.tar.gz && cd libevent-2.0.21-stable && ./configure && make && make install
+RUN git clone https://github.com/coturn/coturn
+RUN mkdir -p /etc/coturn && cp -f coturn/examples/etc/turnserver.conf /etc/
+RUN cd coturn && ./configure && make && make install
+RUN mkdir -p /vaRUN mkdir -p /var/run/
+RUN apt-get remove -y wget gcc make git
+RUN rm -rf /tmp/*
+
+
+#RUN sed -i 's/#TURNSERVER_ENABLED=1/TURNSERVER_ENABLED=1/g' /etc/default/coturn
+
+RUN mkdir -p /etc/coturi
 RUN openssl genrsa -out /etc/coturn/turn_server_pkey.pem 1024
 RUN openssl req -new -key /etc/coturn/turn_server_pkey.pem -out /etc/coturn/turn_server.csr -subj /C=CN/O="forsrc"/OU="forsrc"/CN="coturn.forsrc.com"/ST="forsrc"/L="forsrc"
 RUN openssl x509 -req -in /etc/coturn/turn_server.csr -signkey /etc/coturn/turn_server_pkey.pem -out /etc/coturn/turn_server_cert.pem
@@ -54,6 +67,5 @@ EXPOSE 5347 5347/udp
 VOLUME ["/var/lib/coturn"]
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
-
 
 CMD ["--log-file=stdout", "-c", "/etc/turnserver.conf", "$COTURN_ARGS"]
