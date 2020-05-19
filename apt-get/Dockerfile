@@ -3,7 +3,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update
 
-RUN apt-get -y install coturn systemd sudo
+RUN apt-get -y install coturn openssl systemd sudo
 
 #RUN systemctl enable coturn
 
