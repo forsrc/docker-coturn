@@ -22,7 +22,7 @@ RUN rm -rf /tmp/*
 
 #RUN sed -i 's/#TURNSERVER_ENABLED=1/TURNSERVER_ENABLED=1/g' /etc/default/coturn
 
-RUN mkdir -p /etc/coturi
+RUN mkdir -p /etc/coturn
 RUN openssl genrsa -out /etc/coturn/turn_server_pkey.pem 1024
 RUN openssl req -new -key /etc/coturn/turn_server_pkey.pem -out /etc/coturn/turn_server.csr -subj /C=CN/O="forsrc"/OU="forsrc"/CN="coturn.forsrc.com"/ST="forsrc"/L="forsrc"
 RUN openssl x509 -req -in /etc/coturn/turn_server.csr -signkey /etc/coturn/turn_server_pkey.pem -out /etc/coturn/turn_server_cert.pem
