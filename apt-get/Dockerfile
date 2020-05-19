@@ -17,7 +17,7 @@ RUN openssl x509 -req -in /etc/coturn/turn_server.csr -signkey /etc/coturn/turn_
 RUN sed -i 's@#cert=/usr\/local/etc/turn_server_cert.pem@cert=/etc/coturn/turn_server_cert.pem@g' /etc/turnserver.conf
 RUN sed -i 's@#pkey=/usr/local/etc/turn_server_pkey.pem@pkey=/etc/coturn/turn_server_pkey.pem@g'  /etc/turnserver.conf
 RUN sed -i 's@#server-name=blackdow.carleon.gov@server-name=coturn.forsrc.com@g'                  /etc/turnserver.conf
-RUN sed -i 's@#realm=realm@realm=coturn.forsrc.com@g'                                             /etc/turnserver.conf
+RUN sed -i 's@#realm=mycompany.org@realm=coturn.forsrc.com@g'                                             /etc/turnserver.conf
 RUN sed -i 's@#user=username2:password2@user=forsrc:0xd667eb7aa3ebe3af48ee1c3330941e06@g'         /etc/turnserver.conf
 
 RUN mkdir -p /var/lib/turn/
