@@ -7,7 +7,7 @@ RUN apt-get update
 
 #RUN systemctl enable coturn
 
-RUN apt-get -y install systemd sudo wget gcc make git sqlite libsqlite3-dev libssl-dev libevent-dev libhiredis-dev libmysqlclient-dev libpq-dev
+RUN apt-get -y install systemd sudo wget gcc make git sqlite libsqlite3-dev libssl-dev libevent-dev libhiredis-dev libmysqlclient-dev libpq-dev pkg-config
 
 RUN cd /tmp
 #RUN wget https://github.com/downloads/libevent/libevent/libevent-2.0.21-stable.tar.gz
